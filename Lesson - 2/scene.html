@@ -28,18 +28,19 @@
 </head>
 <body>
     <!-- STEP 3: Create a canvas element with an id, and set the touch-action attribute to "none" -->
-    
+    <canvas id = "renderCanvas" touch-action="none"></canvas>
     <!-- touch-action="none" for best results from PEP -->
  
     <script>
         // STEP 4: Get the canvas element as a const
-        
+        const canvas = document.querySelector("#renderCanvas");
         // STEP 5: Create the BABYON 3D engine, and attach it to the canvas
-        
+        const engine = new BABYLON.Engine(canvas, true);
         // STEP 6: Build the createScene function
-        
+        const createScene = function() {
             // STEP 8a: Create a new BABYLON scene, passing in the engine as an argument
-            
+            const scene = new BABYLON.scene(engine);
+
             const box = BABYLON.MeshBuilder.CreateBox("box", {}); // Create box mesh object
  
             const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0)); // Add Arc Rotate Camera
@@ -49,13 +50,20 @@
  
             const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
             // STEP 8b: Return the scene
-            
+            return scene;
+
+        }
         // STEP 7: Call the createScene function
-         
+        const scene = createScene();
         // STEP 8: Use the runRenderLoop() method to render the scene repeatedly
+        engine.runRenderLoop(function() {
+            scene.render();
         
+        });
         // STEP 9: Add an event listener that adapts to the user resizing the screen
-        
+        window.addEventListener("resize", function() {
+            engine.resize();
+        });
         // STEP 10: Move the page up to a server (maybe GitHub Pages) and try it out!
     </script>
 </body>
